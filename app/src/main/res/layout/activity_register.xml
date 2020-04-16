@@ -58,6 +58,29 @@
             android:inputType="textPassword"
             android:hint="비밀번호 재입력"/>
 
+        <RadioGroup
+            android:id="@+id/genderRadioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="10"
+            android:paddingVertical="10dp">
+            <RadioButton
+                android:id="@+id/genderMaleBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="남성"
+                android:layout_weight="5"
+                android:onClick="onRadioButtonClicked"/>
+            <RadioButton
+                android:id="@+id/genderFemaleBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="여성"
+                android:layout_weight="5"
+                android:onClick="onRadioButtonClicked"/>
+        </RadioGroup>
+
         <Button
             android:id="@+id/register_btn"
             android:layout_width="match_parent"

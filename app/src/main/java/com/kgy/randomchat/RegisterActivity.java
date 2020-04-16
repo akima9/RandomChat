@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -34,8 +36,12 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText userPw1;
     private EditText userPw2;
     private EditText userNickName;
+    private RadioGroup genderRadioGroup;
+    private RadioButton genderMaleBtn;
+    private RadioButton genderFemaleBtn;
     private ProgressBar progressBar;
     private String nickName;
+    private String gender;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,12 +53,22 @@ public class RegisterActivity extends AppCompatActivity {
         userPw2 = (EditText) findViewById(R.id.userPw2);
         userNickName = (EditText) findViewById(R.id.userNickName);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        genderRadioGroup = (RadioGroup) findViewById(R.id.genderRadioGroup);
+        genderMaleBtn = (RadioButton) findViewById(R.id.genderMaleBtn);
+        genderFemaleBtn = (RadioButton) findViewById(R.id.genderFemaleBtn);
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
         // 회원가입 버튼
         Button register_btn = (Button) findViewById(R.id.register_btn);
+
+//        genderRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+//
+//            }
+//        });
 
         // 회원가입 버튼 클릭 이벤트
         register_btn.setOnClickListener(new View.OnClickListener() {
@@ -84,6 +100,10 @@ public class RegisterActivity extends AppCompatActivity {
                 // 비밀번호 재입력 안했을 경우
                 if (password2.isEmpty()){
                     Toast.makeText(RegisterActivity.this, "비밀번호 재입력을 해주세요", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (gender.isEmpty()){
+                    Toast.makeText(RegisterActivity.this, "성별을 선택해주세요.", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 // 비밀번호 != 비밀번호 재입력 일 경우
@@ -129,14 +149,15 @@ public class RegisterActivity extends AppCompatActivity {
 
                                     String email = user.getEmail().replace(".","_");
 
-                                    // nickName hashtable 에 담기
-                                    Hashtable<String, String> chats = new Hashtable<String, String>();
-                                    chats.put("email", user.getEmail());
-                                    chats.put("nickName", nickName);
+                                    // hashtable 에 담기
+                                    Hashtable<String, String> users = new Hashtable<String, String>();
+                                    users.put("email", user.getEmail());
+                                    users.put("nickName", nickName);
+                                    users.put("gender", gender);
 
                                     // Write a message to the database
                                     DatabaseReference myRef = database.getReference("userNickName").child(email);
-                                    myRef.setValue(chats);
+                                    myRef.setValue(users);
 
                                     Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                                     startActivity(intent);
@@ -159,5 +180,23 @@ public class RegisterActivity extends AppCompatActivity {
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
 //        updateUI(currentUser);
+    }
+
+    public void onRadioButtonClicked(View view) {
+        
+        boolean checked = ((RadioButton) view).isChecked();
+
+        switch(view.getId()) {
+            case R.id.genderMaleBtn:
+                if (checked) {
+                    gender = "male";
+                    break;
+                }
+            case R.id.genderFemaleBtn:
+                if (checked) {
+                    gender = "Female";
+                    break;
+                }
+        }
     }
 }
