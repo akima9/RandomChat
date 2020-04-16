@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">모두의 채팅</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_users">회원</string>
+    <string name="title_chats">채팅</string>
+    <string name="title_setting">설정</string>
+</resources>
