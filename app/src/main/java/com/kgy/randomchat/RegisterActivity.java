@@ -63,13 +63,6 @@ public class RegisterActivity extends AppCompatActivity {
         // 회원가입 버튼
         Button register_btn = (Button) findViewById(R.id.register_btn);
 
-//        genderRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-//
-//            }
-//        });
-
         // 회원가입 버튼 클릭 이벤트
         register_btn.setOnClickListener(new View.OnClickListener() {
             @Override

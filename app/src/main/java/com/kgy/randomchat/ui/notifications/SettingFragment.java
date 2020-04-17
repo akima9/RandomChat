@@ -15,15 +15,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -51,7 +48,7 @@ public class SettingFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 //        notificationsViewModel =
 //                ViewModelProviders.of(this).get(NotificationsViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_profile, container, false);
+        View root = inflater.inflate(R.layout.fragment_setting, container, false);
         mStorageRef = FirebaseStorage.getInstance().getReference();
 
         SharedPreferences sharedPref = getActivity().getSharedPreferences("shared",Context.MODE_PRIVATE);

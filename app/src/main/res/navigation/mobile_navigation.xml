@@ -9,17 +9,17 @@
         android:id="@+id/navigation_home"
         android:name="com.kgy.randomchat.ui.home.UsersFragment"
         android:label="@string/title_users"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_users" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
         android:name="com.kgy.randomchat.ui.dashboard.ChatsFragment"
         android:label="@string/title_chats"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_chats" />
 
     <fragment
         android:id="@+id/navigation_notifications"
         android:name="com.kgy.randomchat.ui.notifications.SettingFragment"
         android:label="@string/title_setting"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_setting" />
 </navigation>
