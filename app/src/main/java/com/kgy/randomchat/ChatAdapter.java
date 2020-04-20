@@ -1,5 +1,6 @@
 package com.kgy.randomchat;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,15 +10,16 @@ import java.util.ArrayList;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> {
-    private ArrayList<ChatData> mDataset;
-    private String myEmail;
+import static androidx.constraintlayout.widget.Constraints.TAG;
 
-    // Provide a reference to the views for each data item
-    // Complex data items may need more than one view per item, and
-    // you provide access to all the views for a data item in a view holder
+public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> {
+    private static final String TAG = "RandomChat";
+    private ArrayList<ChatData> mDataset;
+    private String selectedEmail;
+    String loginedEmail;
+
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        // each data item is just a string in this case
+        
         public TextView textView;
         public MyViewHolder(View v) {
             super(v);
@@ -25,19 +27,17 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
         }
     }
 
-    // Provide a suitable constructor (depends on the kind of dataset)
-    public ChatAdapter(ArrayList<ChatData> myDataset, String lsEmail) {
+    public ChatAdapter(ArrayList<ChatData> myDataset, String lsEmail, String loginedEmail) {
+        Log.d(TAG, "ChatAdapter: lsEmail = "+lsEmail);
         mDataset = myDataset;
-        this.myEmail = lsEmail;
+        this.selectedEmail = lsEmail;
+        this.loginedEmail = loginedEmail;
     }
 
-    // Create new views (invoked by the layout manager)
     @Override
-    public ChatAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent,
-                                                     int viewType) {
-        // create a new view
-        View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.row_chat, parent, false);
+    public ChatAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_chat, parent, false);
         if (viewType == 1){
             v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.right_row_chat, parent, false);
@@ -46,16 +46,20 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
         return vh;
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        // - get element from your dataset at this position
-        // - replace the contents of the view with that element
-        holder.textView.setText(mDataset.get(position).getMsg());
+        Log.d(TAG, "onBindViewHolder: holder = "+holder);
+        Log.d(TAG, "onBindViewHolder: position = "+position);
+        Log.d(TAG, "onBindViewHolder: text = "+mDataset.get(position).getMsg());
+        Log.d(TAG, "onBindViewHolder: email = "+mDataset.get(position).getEmail());
+        // 선택 된 email, 로그인 한 email의 msg만 set
+        if (mDataset.get(position).getEmail().equals(selectedEmail) || mDataset.get(position).getEmail().equals(loginedEmail)){
+            holder.textView.setText(mDataset.get(position).getMsg());
+        }
 
+//        holder.textView.setText(mDataset.get(position).getMsg());
     }
 
-    // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
         return mDataset.size();
@@ -63,7 +67,8 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
 
     @Override
     public int getItemViewType(int position) {
-        if (mDataset.get(position).getEmail().equals(myEmail)){
+        // selectedEmail => 선택된 사용자
+        if (mDataset.get(position).getEmail().equals(selectedEmail)){
             return 1;
         }else{
             return 2;

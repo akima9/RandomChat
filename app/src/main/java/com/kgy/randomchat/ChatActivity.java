@@ -31,6 +31,7 @@ public class ChatActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
     private EditText inputMsg;
     private String lsEmail;
+    String loginedEmail;
     private FirebaseDatabase database;
     private static final String TAG = "RandomChat";
     private ArrayList<ChatData> chatDataArrayList;
@@ -42,23 +43,22 @@ public class ChatActivity extends AppCompatActivity {
 
         chatDataArrayList = new ArrayList<ChatData>();
         database = FirebaseDatabase.getInstance();
-        lsEmail = getIntent().getStringExtra("email");
+        // 선택된 email
+        lsEmail = getIntent().getStringExtra("selectedEmail");
+        // 로그인 한 email
+        loginedEmail = getIntent().getStringExtra("loginedEmail");
+
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
         inputMsg = (EditText) findViewById(R.id.inputMsg);
-
         Button sendBtn = findViewById(R.id.sendBtn);
 
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
         recyclerView.setHasFixedSize(true);
 
         // use a linear layout manager
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        // specify an adapter (see also next example)
-//        String[] myDataset = {"test1","test2"};
-        mAdapter = new ChatAdapter(chatDataArrayList, lsEmail);
+        mAdapter = new ChatAdapter(chatDataArrayList, lsEmail, loginedEmail);
         recyclerView.setAdapter(mAdapter);
 
         // 보내기 버튼 클릭 이벤트
@@ -87,13 +87,9 @@ public class ChatActivity extends AppCompatActivity {
         ChildEventListener childEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
-                Log.d(TAG, "onChildAdded:" + dataSnapshot.getKey());
 
                 // A new comment has been added, add it to the displayed list
                 ChatData comment = dataSnapshot.getValue(ChatData.class);
-
-                Log.d(TAG, "comment.getEmail(): "+comment.getEmail());
-                Log.d(TAG, "comment.getMsg(): "+comment.getMsg());
 
                 chatDataArrayList.add(comment);
                 mAdapter.notifyDataSetChanged();
