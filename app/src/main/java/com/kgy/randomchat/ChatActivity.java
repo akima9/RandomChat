@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,23 +32,32 @@ public class ChatActivity extends AppCompatActivity {
     private ChatAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private EditText inputMsg;
-    private String lsEmail;
+    private String selectedEmail;
     String loginedEmail;
     private FirebaseDatabase database;
     private static final String TAG = "RandomChat";
     private ArrayList<ChatData> chatDataArrayList;
+    private FirebaseAuth mAuth;
+    private FirebaseUser user;
+    String lsKey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
+        mAuth = FirebaseAuth.getInstance();
+
         chatDataArrayList = new ArrayList<ChatData>();
         database = FirebaseDatabase.getInstance();
         // 선택된 email
-        lsEmail = getIntent().getStringExtra("selectedEmail");
+        selectedEmail = getIntent().getStringExtra("selectedEmail");
+        lsKey = getIntent().getStringExtra("selectedUserKey");
         // 로그인 한 email
         loginedEmail = getIntent().getStringExtra("loginedEmail");
+
+//        Log.d(TAG, "onCreate: selectedEmail = "+selectedEmail);
+//        Log.d(TAG, "onCreate: loginedEmail = "+loginedEmail);
 
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
         inputMsg = (EditText) findViewById(R.id.inputMsg);
@@ -58,7 +69,7 @@ public class ChatActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        mAdapter = new ChatAdapter(chatDataArrayList, lsEmail, loginedEmail);
+        mAdapter = new ChatAdapter(chatDataArrayList, selectedEmail, loginedEmail);
         recyclerView.setAdapter(mAdapter);
 
         // 보내기 버튼 클릭 이벤트
@@ -74,12 +85,19 @@ public class ChatActivity extends AppCompatActivity {
 
                 // email 과 msg hashtable 에 담기
                 Hashtable<String, String> chats = new Hashtable<String, String>();
-                chats.put("email", lsEmail);
+                chats.put("sendUser", loginedEmail);
+                chats.put("resUser", selectedEmail);
                 chats.put("msg", msg);
 
-                // Write a message to the database
-                DatabaseReference myRef = database.getReference("message").child(datetime);
+                user = mAuth.getCurrentUser();
 
+                // Write a message to the database
+//                DatabaseReference myRef = database.getReference("message").child(datetime);
+//                DatabaseReference myRef = database.getReference(user.getUid()).child("message").child(datetime);
+                DatabaseReference myRef = database.getReference("chats").child(user.getUid()).child(lsKey).child(datetime);
+                myRef.setValue(chats);
+
+                myRef = database.getReference("chats").child(lsKey).child(user.getUid()).child(datetime);
                 myRef.setValue(chats);
             }
         });
@@ -139,7 +157,10 @@ public class ChatActivity extends AppCompatActivity {
                         Toast.LENGTH_SHORT).show();
             }
         };
-        DatabaseReference myRef = database.getReference("message");
+//        DatabaseReference myRef = database.getReference("message");
+        user = mAuth.getCurrentUser();
+//        DatabaseReference myRef = database.getReference("users").child(lsKey).child("message");
+        DatabaseReference myRef = database.getReference("chats").child(user.getUid()).child(lsKey);
         myRef.addChildEventListener(childEventListener);
     }
 }

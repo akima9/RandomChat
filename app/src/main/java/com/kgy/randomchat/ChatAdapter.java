@@ -48,16 +48,11 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        Log.d(TAG, "onBindViewHolder: holder = "+holder);
-        Log.d(TAG, "onBindViewHolder: position = "+position);
-        Log.d(TAG, "onBindViewHolder: text = "+mDataset.get(position).getMsg());
-        Log.d(TAG, "onBindViewHolder: email = "+mDataset.get(position).getEmail());
         // 선택 된 email, 로그인 한 email의 msg만 set
-        if (mDataset.get(position).getEmail().equals(selectedEmail) || mDataset.get(position).getEmail().equals(loginedEmail)){
-            holder.textView.setText(mDataset.get(position).getMsg());
-        }
-
-//        holder.textView.setText(mDataset.get(position).getMsg());
+//        if (mDataset.get(position).getEmail().equals(selectedEmail) || mDataset.get(position).getEmail().equals(loginedEmail)){
+//            holder.textView.setText(mDataset.get(position).getMsg());
+//        }
+        holder.textView.setText(mDataset.get(position).getMsg());
     }
 
     @Override
@@ -67,8 +62,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
 
     @Override
     public int getItemViewType(int position) {
-        // selectedEmail => 선택된 사용자
-        if (mDataset.get(position).getEmail().equals(selectedEmail)){
+        if (mDataset.get(position).getSendUser().equals(loginedEmail)){
             return 1;
         }else{
             return 2;

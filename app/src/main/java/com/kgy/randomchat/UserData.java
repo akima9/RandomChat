@@ -4,6 +4,11 @@ public class UserData {
     private String email;
     private String nickName;
     private String gender;
+    private String key;
+
+    public UserData() {
+
+    }
 
     public String getEmail() {
         return email;
@@ -29,12 +34,11 @@ public class UserData {
         this.gender = gender;
     }
 
-    @Override
-    public String toString() {
-        return "UserData{" +
-                "email='" + email + '\'' +
-                ", nickName='" + nickName + '\'' +
-                ", gender='" + gender + '\'' +
-                '}';
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 }

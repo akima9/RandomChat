@@ -140,16 +140,16 @@ public class RegisterActivity extends AppCompatActivity {
                                         }
                                     });
 
-                                    String email = user.getEmail().replace(".","_");
-
                                     // hashtable 에 담기
                                     Hashtable<String, String> users = new Hashtable<String, String>();
                                     users.put("email", user.getEmail());
                                     users.put("nickName", nickName);
                                     users.put("gender", gender);
+                                    users.put("key", user.getUid());
 
                                     // Write a message to the database
-                                    DatabaseReference myRef = database.getReference("userNickName").child(email);
+//                                    DatabaseReference myRef = database.getReference(user.getUid());
+                                    DatabaseReference myRef = database.getReference("users").child(user.getUid());
                                     myRef.setValue(users);
 
                                     Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);

@@ -86,6 +86,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.MyViewHolder
     public void onBindViewHolder(MyViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
+        Log.d(TAG, "onBindViewHolder: mDataset.get(position).getNickName() = "+mDataset.get(position).getNickName());
         holder.userNickName.setText(mDataset.get(position).getNickName());
         String sex;
         if (mDataset.get(position).getGender().equals("male")){
