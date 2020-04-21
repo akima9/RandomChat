@@ -40,6 +40,7 @@ public class ChatActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseUser user;
     String lsKey;
+    String selectedNickName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +53,7 @@ public class ChatActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         // 선택된 email
         selectedEmail = getIntent().getStringExtra("selectedEmail");
+        selectedNickName = getIntent().getStringExtra("nickName");
         lsKey = getIntent().getStringExtra("selectedUserKey");
         // 로그인 한 email
         loginedEmail = getIntent().getStringExtra("loginedEmail");
@@ -87,6 +89,7 @@ public class ChatActivity extends AppCompatActivity {
                 Hashtable<String, String> chats = new Hashtable<String, String>();
                 chats.put("sendUser", loginedEmail);
                 chats.put("resUser", selectedEmail);
+                chats.put("resNickName", selectedNickName);
                 chats.put("msg", msg);
 
                 user = mAuth.getCurrentUser();

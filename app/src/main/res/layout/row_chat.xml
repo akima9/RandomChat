@@ -5,16 +5,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
+        android:id="@+id/tvNick"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@+id/tvChat"
+        app:layout_constraintBottom_toTopOf="@+id/tvChat"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
         android:id="@+id/tvChat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvNick"
         app:layout_constraintBottom_toBottomOf="parent"
         android:background="@drawable/chat_bubble"
         android:paddingVertical="10dp"
         android:paddingHorizontal="15dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:layout_marginLeft="10dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -21,9 +21,11 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         
         public TextView textView;
+        public TextView tvNick;
         public MyViewHolder(View v) {
             super(v);
-            textView = v.findViewById(R.id.tvChat);
+            textView = (TextView)v.findViewById(R.id.tvChat);
+            tvNick = (TextView)v.findViewById(R.id.tvNick);
         }
     }
 
@@ -53,6 +55,9 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
 //            holder.textView.setText(mDataset.get(position).getMsg());
 //        }
         holder.textView.setText(mDataset.get(position).getMsg());
+        if (holder.tvNick != null){
+            holder.tvNick.setText(mDataset.get(position).getResNickName());
+        }
     }
 
     @Override

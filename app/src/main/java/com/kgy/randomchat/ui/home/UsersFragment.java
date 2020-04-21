@@ -40,6 +40,7 @@ public class UsersFragment extends Fragment {
     String userEmail;
     private FirebaseAuth mAuth;
     private FirebaseUser user;
+    String sendNickName;
 
     public View onCreateView(@NonNull LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState) {
         userDataArrayList = new ArrayList<UserData>();
@@ -69,7 +70,11 @@ public class UsersFragment extends Fragment {
                     if (!userEmail.equals(userData.getEmail())){
                         userDataArrayList.add(userData);
                         mAdapter.notifyDataSetChanged();
+                    } else {
+                        sendNickName = userData.getNickName();
                     }
+
+//                    Log.d(TAG, "onDataChange: sendNickName = "+sendNickName);
                 }
             }
 
@@ -105,7 +110,8 @@ public class UsersFragment extends Fragment {
                 intent.putExtra("selectedUserKey",item.getKey());
                 intent.putExtra("selectedEmail",item.getEmail());
                 intent.putExtra("loginedEmail",userEmail);
-                intent.putExtra("nickName",item.getNickName());
+                intent.putExtra("nickName",sendNickName);
+//                Log.d(TAG, "onUsersSelected: nickName = "+item.getNickName());
                 startActivity(intent);
             }
         });

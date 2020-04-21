@@ -22,6 +22,15 @@ public class ChatData {
     private String sendUser;
     private String resUser;
     private String msg;
+    private String resNickName;
+
+    public String getResNickName() {
+        return resNickName;
+    }
+
+    public void setResNickName(String resNickName) {
+        this.resNickName = resNickName;
+    }
 
     public String getSendUser() {
         return sendUser;
